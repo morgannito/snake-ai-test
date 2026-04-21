@@ -57,11 +57,11 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP and direction != (0, CELL_SIZE):
                     direction = (0, -CELL_SIZE)
-                elif event.key == pygame.K_DOWN and direction != (0, CELL_SIZE):
+                elif event.key == pygame.K_DOWN and direction != (0, -CELL_SIZE):
                     direction = (0, CELL_SIZE)
                 elif event.key == pygame.K_LEFT and direction != (CELL_SIZE, 0):
                     direction = (-CELL_SIZE, 0)
-                elif event.key == pygame.K_RIGHT and direction != (CELL_SIZE, 0):
+                elif event.key == pygame.K_RIGHT and direction != (-CELL_SIZE, 0):
                     direction = (CELL_SIZE, 0)
 
         if not game_over_flag:
