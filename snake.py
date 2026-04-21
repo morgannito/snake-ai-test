@@ -66,22 +66,11 @@ def main():
 
         if not game_over_flag:
             new_head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
-
-            # Check for wall collision
-            if (new_head[0] < 0 or new_head[0] >= WIDTH or
-                new_head[1] < 0 or new_head[1] >= HEIGHT):
+            snake = move_snake(snake, direction)
+            if check_collision(new_head, WIDTH, HEIGHT, snake[1:]):
                 game_over_flag = True
                 continue
-
-            # Check for self collision
-            if new_head in snake:
-                game_over_flag = True
-                continue
-
-            snake = [new_head] + snake
-
-            # Check for food collision
-            if abs(new_head[0] - food[0]) < CELL_SIZE and abs(new_head[1] - food[1]) < CELL_SIZE:
+            if eat_food(new_head, food, CELL_SIZE):
                 score += 1
                 food = (random.randint(0, WIDTH // CELL_SIZE - 1) * CELL_SIZE,
                         random.randint(0, HEIGHT // CELL_SIZE - 1) * CELL_SIZE)
