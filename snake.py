@@ -1,6 +1,8 @@
 import pygame
 import random
 
+from snake_logic import move_snake, check_collision, eat_food
+
 # Initialize pygame
 pygame.init()
 
@@ -66,16 +68,19 @@ def main():
 
         if not game_over_flag:
             new_head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
+            # move_snake retire deja la queue : on la memorise pour pouvoir la
+            # rendre quand le serpent mange. Le `snake.pop()` qui suivait
+            # retirait une SECONDE fois : le serpent retrecissait en avancant.
+            queue = snake[-1]
             snake = move_snake(snake, direction)
             if check_collision(new_head, WIDTH, HEIGHT, snake[1:]):
                 game_over_flag = True
                 continue
             if eat_food(new_head, food, CELL_SIZE):
                 score += 1
+                snake.append(queue)
                 food = (random.randint(0, WIDTH // CELL_SIZE - 1) * CELL_SIZE,
                         random.randint(0, HEIGHT // CELL_SIZE - 1) * CELL_SIZE)
-            else:
-                snake.pop()
 
         screen.fill(BLACK)
         draw_score(score)
